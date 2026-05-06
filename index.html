@@ -1,0 +1,1351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI for Work — Townhall, May 2026</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/theme/white.css" id="theme">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      /* SPEED tokens */
+      --primary-red-100: #ed264f;
+      --primary-red-110: #a61b37;
+      --primary-red-10:  #fde9ed;
+      --primary-red-5:   #fef4f6;
+      --secondary-purple-100: #6300a3;
+      --secondary-purple-110: #561381;
+      --secondary-purple-10:  #efe5f6;
+      --text-primary:    #2e054e;
+      --text-secondary:  #555555;
+      --text-tertiary:   #888888;
+      --surface:         #ffffff;
+      --surface-10:      #fafafa;
+      --surface-20:      #f6f6f6;
+      --surface-30:      #f1f1f1;
+      --border-20:       #e8e8e8;
+      --border-30:       #dfdfdf;
+      --success-100:     #00b088;
+      --success-10:      #e5f7f3;
+      --alert-100:       #e36000;
+      --alert-10:        #fcefe5;
+      --gold-100:        #ffcd00;
+      --lilac-100:       #6161ff;
+      --spinny-black:    #141414;
+      --radius-large:    16px;
+      --radius-12:       12px;
+      --radius-pill:     999px;
+      --space-5:         16px;
+      --space-8:         32px;
+      --space-9:         40px;
+    }
+
+    .reveal {
+      font-family: 'Jost', 'Proxima Nova', system-ui, sans-serif;
+      font-size: 32px;
+      color: var(--text-primary);
+    }
+
+    /* ============================================
+       ANIMATIONS — chic & classy entry choreography
+       ============================================ */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes letterSpread {
+      from { opacity: 0; letter-spacing: 0.08em; transform: translateY(12px); }
+      to   { opacity: 1; letter-spacing: 0; transform: translateY(0); }
+    }
+    @keyframes barGrow {
+      from { transform: scaleX(0); }
+      to   { transform: scaleX(1); }
+    }
+    @keyframes shimmerSweep {
+      0%   { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    @keyframes pulseSubtle {
+      0%, 100% { transform: scale(1); }
+      50%      { transform: scale(1.04); }
+    }
+    @keyframes accentSlide {
+      from { transform: scaleX(0); }
+      to   { transform: scaleX(1); }
+    }
+
+    /* Fade-up on section entry — applies to direct children of slides */
+    .reveal .slides section.present > * {
+      animation: fadeUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+    }
+    .reveal .slides section.present > *:nth-child(1) { animation-delay: 0.05s; }
+    .reveal .slides section.present > *:nth-child(2) { animation-delay: 0.15s; }
+    .reveal .slides section.present > *:nth-child(3) { animation-delay: 0.25s; }
+    .reveal .slides section.present > *:nth-child(4) { animation-delay: 0.35s; }
+    .reveal .slides section.present > *:nth-child(5) { animation-delay: 0.45s; }
+    .reveal .slides section.present > *:nth-child(6) { animation-delay: 0.55s; }
+    .reveal .slides section.present > *:nth-child(7) { animation-delay: 0.65s; }
+    .reveal .slides section.present > *:nth-child(8) { animation-delay: 0.75s; }
+
+    /* Cover slide — headline letter-spacing reveal */
+    .reveal .slides section.cover.present h1 {
+      animation: letterSpread 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.2s backwards;
+    }
+    .reveal .slides section.cover.present .sub {
+      animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.6s backwards;
+    }
+
+    /* Card grids — stagger children */
+    .reveal .slides section.present .arc-grid > .arc-card,
+    .reveal .slides section.present .layers > .layer,
+    .reveal .slides section.present .champions > .champ,
+    .reveal .slides section.present .mentions > .mention,
+    .reveal .slides section.present .domain-grid > .domain,
+    .reveal .slides section.present .resp-grid > .resp-card,
+    .reveal .slides section.present .cta-grid > .cta {
+      animation: fadeUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+    }
+    .reveal .slides section.present .arc-grid > *:nth-child(1),
+    .reveal .slides section.present .layers > *:nth-child(1),
+    .reveal .slides section.present .champions > *:nth-child(1),
+    .reveal .slides section.present .mentions > *:nth-child(1),
+    .reveal .slides section.present .domain-grid > *:nth-child(1),
+    .reveal .slides section.present .resp-grid > *:nth-child(1),
+    .reveal .slides section.present .cta-grid > *:nth-child(1) { animation-delay: 0.30s; }
+    .reveal .slides section.present .arc-grid > *:nth-child(2),
+    .reveal .slides section.present .layers > *:nth-child(2),
+    .reveal .slides section.present .champions > *:nth-child(2),
+    .reveal .slides section.present .mentions > *:nth-child(2),
+    .reveal .slides section.present .domain-grid > *:nth-child(2),
+    .reveal .slides section.present .resp-grid > *:nth-child(2),
+    .reveal .slides section.present .cta-grid > *:nth-child(2) { animation-delay: 0.40s; }
+    .reveal .slides section.present .arc-grid > *:nth-child(3),
+    .reveal .slides section.present .layers > *:nth-child(3),
+    .reveal .slides section.present .champions > *:nth-child(3),
+    .reveal .slides section.present .mentions > *:nth-child(3),
+    .reveal .slides section.present .domain-grid > *:nth-child(3),
+    .reveal .slides section.present .resp-grid > *:nth-child(3),
+    .reveal .slides section.present .cta-grid > *:nth-child(3) { animation-delay: 0.50s; }
+    .reveal .slides section.present .arc-grid > *:nth-child(4),
+    .reveal .slides section.present .layers > *:nth-child(4),
+    .reveal .slides section.present .champions > *:nth-child(4),
+    .reveal .slides section.present .domain-grid > *:nth-child(4),
+    .reveal .slides section.present .resp-grid > *:nth-child(4) { animation-delay: 0.60s; }
+    .reveal .slides section.present .champions > *:nth-child(5),
+    .reveal .slides section.present .domain-grid > *:nth-child(5),
+    .reveal .slides section.present .resp-grid > *:nth-child(5) { animation-delay: 0.70s; }
+    .reveal .slides section.present .champions > *:nth-child(6),
+    .reveal .slides section.present .domain-grid > *:nth-child(6),
+    .reveal .slides section.present .resp-grid > *:nth-child(6) { animation-delay: 0.80s; }
+    .reveal .slides section.present .champions > *:nth-child(7),
+    .reveal .slides section.present .domain-grid > *:nth-child(7) { animation-delay: 0.90s; }
+    .reveal .slides section.present .domain-grid > *:nth-child(n+8) { animation-delay: 1.00s; }
+
+    /* MTA bars grow from 0 */
+    .reveal .slides section.present .mta-bar {
+      transform-origin: left center;
+      animation: barGrow 1.0s cubic-bezier(0.16, 1, 0.3, 1) 0.5s backwards;
+    }
+
+    /* "NEW" badges on slide 4 — gentle pulse */
+    .reveal .slides section.present .mta-delta {
+      animation: fadeIn 0.5s ease 1.2s backwards;
+    }
+
+    /* Audit rows — stagger */
+    .reveal .slides section.present .audit-row {
+      animation: fadeUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+    }
+    .reveal .slides section.present .audit-row:nth-child(2) { animation-delay: 0.4s; }
+    .reveal .slides section.present .audit-row:nth-child(3) { animation-delay: 0.45s; }
+    .reveal .slides section.present .audit-row:nth-child(4) { animation-delay: 0.50s; }
+    .reveal .slides section.present .audit-row:nth-child(5) { animation-delay: 0.55s; }
+    .reveal .slides section.present .audit-row:nth-child(6) { animation-delay: 0.60s; }
+    .reveal .slides section.present .audit-row:nth-child(7) { animation-delay: 0.65s; }
+    .reveal .slides section.present .audit-row:nth-child(8) { animation-delay: 0.70s; }
+    .reveal .slides section.present .audit-row:nth-child(9) { animation-delay: 0.75s; }
+    .reveal .slides section.present .audit-row:nth-child(10) { animation-delay: 0.80s; }
+    .reveal .slides section.present .audit-row:nth-child(11) { animation-delay: 0.85s; }
+
+    /* Stitching tier pills — stagger */
+    .reveal .slides section.present .stitch-tier {
+      animation: fadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+    }
+    .reveal .slides section.present .stitch-tier:nth-child(1) { animation-delay: 0.5s; }
+    .reveal .slides section.present .stitch-tier:nth-child(2) { animation-delay: 0.6s; }
+    .reveal .slides section.present .stitch-tier:nth-child(3) { animation-delay: 0.7s; }
+    .reveal .slides section.present .stitch-tier:nth-child(4) { animation-delay: 0.8s; }
+    .reveal .slides section.present .stitch-tier:nth-child(5) { animation-delay: 0.9s; }
+
+    /* Big bets card stack stagger */
+    .reveal .slides section.present .bet {
+      animation: fadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+    }
+    .reveal .slides section.present .bet:nth-child(1) { animation-delay: 0.55s; }
+    .reveal .slides section.present .bet:nth-child(2) { animation-delay: 0.65s; }
+    .reveal .slides section.present .bet:nth-child(3) { animation-delay: 0.75s; }
+
+    /* Why-strip items stagger */
+    .reveal .slides section.present .why-item {
+      animation: fadeUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) backwards;
+    }
+    .reveal .slides section.present .why-item:nth-child(1) { animation-delay: 0.6s; }
+    .reveal .slides section.present .why-item:nth-child(2) { animation-delay: 0.7s; }
+    .reveal .slides section.present .why-item:nth-child(3) { animation-delay: 0.8s; }
+    .reveal .slides section.present .why-item:nth-child(4) { animation-delay: 0.9s; }
+
+    /* Card hover lift — for browsing on a laptop, not projection */
+    .arc-card, .mention, .domain, .cta, .resp-card, .layer, .champ, .bet {
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
+    }
+    .arc-card:hover, .mention:hover, .domain:hover, .cta:hover, .resp-card:hover, .layer:hover, .champ:hover, .bet:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(46, 5, 78, 0.10);
+    }
+
+    /* Respect reduced-motion */
+    @media (prefers-reduced-motion: reduce) {
+      .reveal .slides section.present > *,
+      .reveal .slides section.present *,
+      .reveal .slides section.cover.present h1,
+      .reveal .slides section.cover.present .sub {
+        animation: none !important;
+      }
+    }
+    .reveal .slides section, .reveal .slides section * {
+      box-sizing: border-box;
+    }
+    .reveal .slides section {
+      text-align: left;
+      padding: 40px 60px;
+    }
+    .reveal h1, .reveal h2, .reveal h3 {
+      font-family: 'Jost', sans-serif;
+      color: var(--text-primary);
+      text-transform: none;
+      letter-spacing: 0;
+      font-weight: 700;
+      margin: 0 0 16px 0;
+    }
+    .reveal h1 { font-size: 72px; line-height: 1.1; }
+    .reveal h2 { font-size: 56px; line-height: 1.15; font-weight: 700; }
+    .reveal h3 { font-size: 36px; line-height: 1.25; font-weight: 600; }
+    .reveal p, .reveal li { font-size: 28px; line-height: 1.45; color: var(--text-secondary); font-weight: 400; }
+    .reveal strong { color: var(--text-primary); font-weight: 600; }
+    .reveal code { font-family: 'JetBrains Mono', monospace; font-size: 0.85em; background: var(--surface-30); padding: 2px 8px; border-radius: 4px; color: var(--text-primary); }
+
+    /* Generic card */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border-20);
+      border-radius: var(--radius-large);
+      padding: 24px;
+    }
+
+    /* Badge — SPEED pill */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: var(--radius-pill);
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+    .badge.red    { background: var(--primary-red-10); color: var(--primary-red-110); }
+    .badge.green  { background: var(--success-10); color: #1d6b51; }
+    .badge.orange { background: var(--alert-10); color: var(--alert-100); }
+    .badge.purple { background: var(--secondary-purple-10); color: var(--secondary-purple-110); }
+    .badge.gold   { background: #fef5d0; color: #8a6f00; }
+
+    /* Slide 1 — cold open */
+    .cover {
+      background: linear-gradient(135deg, #2e054e 0%, #6300a3 100%);
+      color: #fff !important;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 60px 80px !important;
+    }
+    .cover h1, .cover h2, .cover p { color: #fff !important; }
+    .cover .eyebrow {
+      font-size: 22px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.65) !important;
+      margin-bottom: 32px;
+      font-weight: 500;
+    }
+    .cover h1 { font-size: 96px; line-height: 1; margin-bottom: 24px; }
+    .cover .sub { font-size: 32px; opacity: 0.85; max-width: 80%; }
+    .cover .corner {
+      position: absolute; top: 40px; right: 60px;
+      font-size: 18px; opacity: 0.6; letter-spacing: 1px;
+    }
+
+    /* Slide 2 — arc */
+    .arc-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-top: 40px; }
+    .arc-card {
+      background: var(--surface-20);
+      border-radius: var(--radius-large);
+      padding: 28px 22px;
+      border: 1px solid var(--border-20);
+      position: relative;
+      min-height: 280px;
+    }
+    .arc-card.reveal-card { background: var(--secondary-purple-10); border-color: var(--secondary-purple-100); }
+    .arc-card .num {
+      font-size: 16px; font-weight: 700; color: var(--text-tertiary);
+      letter-spacing: 1px;
+    }
+    .arc-card .title { font-size: 24px; font-weight: 700; color: var(--text-primary); margin: 12px 0; line-height: 1.2; }
+    .arc-card .desc  { font-size: 16px; color: var(--text-secondary); line-height: 1.4; }
+
+    /* Win slides — generic */
+    .win-header { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
+    .win-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; align-items: start; }
+    .win-story { font-size: 26px; line-height: 1.5; }
+    .win-story p { margin: 0 0 18px 0; }
+    .win-thumb {
+      background: var(--surface);
+      border: 1px solid var(--border-20);
+      border-radius: var(--radius-large);
+      padding: 24px;
+      min-height: 400px;
+      box-shadow: 0 4px 20px rgba(46, 5, 78, 0.06);
+    }
+    .thumb-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-bottom: 14px;
+      border-bottom: 1px solid var(--border-20);
+      margin-bottom: 16px;
+    }
+    .thumb-title { font-size: 16px; font-weight: 700; color: var(--text-primary); }
+    .thumb-meta  { font-size: 13px; color: var(--text-tertiary); letter-spacing: 0.5px; }
+
+    /* Lead Leakage audit-doc style */
+    .audit-row {
+      display: flex; align-items: center; gap: 12px;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border-20);
+      font-size: 13px;
+    }
+    .audit-row:last-child { border-bottom: none; }
+    .audit-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .audit-dot.red { background: var(--primary-red-100); }
+    .audit-dot.orange { background: var(--alert-100); }
+    .audit-dot.green { background: var(--success-100); }
+    .audit-bar {
+      flex: 1; height: 10px; background: transparent; border: 1px solid var(--border-30); border-radius: 3px;
+      position: relative;
+    }
+    .audit-bar::after {
+      content: ''; position: absolute; left: 4px; top: 2px; height: 4px;
+      background: var(--border-30); border-radius: 2px;
+    }
+    .audit-bar.long::after { width: calc(75% - 4px); }
+    .audit-bar.mid::after  { width: calc(55% - 4px); }
+    .audit-bar.short::after{ width: calc(38% - 4px); }
+    .audit-tag {
+      font-size: 10px; padding: 2px 8px; border-radius: 999px;
+      font-weight: 600; letter-spacing: 0.3px;
+      background: var(--surface-30); color: var(--text-secondary);
+      flex-shrink: 0;
+    }
+    .audit-tag.p0 { background: #fde9ed; color: #a61b37; }
+    .audit-tag.p1 { background: #fcefe5; color: #9f4300; }
+    .audit-tag.p2 { background: #fef5d0; color: #8a6f00; }
+    .audit-stats {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+      margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border-20);
+    }
+    .audit-stat { text-align: center; }
+    .audit-stat .v { font-size: 22px; font-weight: 700; color: var(--text-primary); }
+    .audit-stat .l { font-size: 11px; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.5px; }
+
+    /* MTA bar-chart style */
+    .mta-row { display: grid; grid-template-columns: 90px 1fr 50px; align-items: center; gap: 10px; margin: 10px 0; font-size: 12px; }
+    .mta-row .ch { font-weight: 600; color: var(--text-primary); font-size: 13px; }
+    .mta-bars { position: relative; height: 28px; }
+    .mta-bar {
+      position: absolute; left: 0; height: 12px; border-radius: 4px;
+    }
+    .mta-bar.st { top: 0; background: var(--text-tertiary); opacity: 0.6; }
+    .mta-bar.mk { top: 14px; background: var(--secondary-purple-100); }
+    .mta-delta { font-weight: 700; font-size: 13px; text-align: right; }
+    .mta-delta.up { color: var(--success-100); }
+    .mta-delta.down { color: var(--primary-red-100); }
+    .mta-legend { display: flex; gap: 16px; font-size: 11px; color: var(--text-tertiary); margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border-20); }
+    .mta-legend .swatch { display: inline-block; width: 12px; height: 8px; border-radius: 2px; margin-right: 5px; vertical-align: middle; }
+
+    /* Seasonality line chart */
+    .season-svg { width: 100%; height: 200px; }
+
+    /* Big bets card stack */
+    .bet {
+      background: var(--surface-20); border-radius: 8px; padding: 10px 12px;
+      border-left: 3px solid var(--secondary-purple-100); margin-bottom: 8px;
+    }
+    .bet:nth-child(2) { border-left-color: var(--success-100); }
+    .bet:nth-child(3) { border-left-color: var(--alert-100); }
+    .bet .bname { font-weight: 700; font-size: 13px; color: var(--text-primary); }
+    .bet .bsize { font-size: 11px; color: var(--text-secondary); margin-top: 2px; font-family: 'JetBrains Mono', monospace; }
+    .bet-total {
+      margin-top: 12px; padding-top: 12px; border-top: 2px solid var(--border-20);
+      display: flex; justify-content: space-between; font-size: 13px; font-weight: 700;
+    }
+    .bet-total .v { color: var(--secondary-purple-100); }
+
+    /* Journey layers */
+    .layer-row {
+      display: grid; grid-template-columns: 16px 1fr 60px;
+      align-items: center; gap: 8px; margin: 6px 0;
+      font-size: 11px;
+    }
+    .layer-num {
+      width: 16px; height: 16px; border-radius: 4px;
+      background: var(--secondary-purple-100); color: white;
+      font-size: 9px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .layer-bar {
+      height: 14px; border-radius: 4px;
+      background: linear-gradient(90deg, var(--lilac-100), var(--secondary-purple-100));
+      opacity: 0.85;
+    }
+    .layer-name { font-size: 11px; color: var(--text-secondary); font-weight: 500; }
+    .pull {
+      font-size: 30px;
+      font-weight: 600;
+      color: var(--text-primary);
+      border-left: 4px solid var(--primary-red-100);
+      padding-left: 20px;
+      margin: 24px 0;
+      line-height: 1.3;
+    }
+    .pull.purple { border-left-color: var(--secondary-purple-100); }
+    .pull.green  { border-left-color: var(--success-100); }
+
+    /* Slide 5 — AIR OS reveal */
+    .reveal-hero h2 { font-size: 60px; margin-bottom: 8px; }
+    .reveal-hero .repo {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 18px;
+      color: var(--text-secondary);
+      background: var(--surface-30);
+      padding: 6px 14px;
+      border-radius: 8px;
+      display: inline-block;
+      margin: 8px 0 16px;
+    }
+    .why-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin: 16px 0 22px;
+      padding: 14px 16px;
+      background: var(--surface-20);
+      border-radius: var(--radius-12);
+      border-left: 4px solid var(--secondary-purple-100);
+    }
+    .why-item { font-size: 14px; line-height: 1.4; }
+    .why-item .pain {
+      color: var(--text-tertiary);
+      text-decoration: line-through;
+      font-size: 12px;
+      display: block;
+      margin-bottom: 2px;
+    }
+    .why-item .gain {
+      color: var(--text-primary);
+      font-weight: 600;
+      font-size: 13px;
+    }
+    .why-tagline {
+      font-size: 15px;
+      color: var(--secondary-purple-110);
+      font-weight: 600;
+      margin-top: 8px;
+      grid-column: 1 / -1;
+      text-align: center;
+      letter-spacing: 0.3px;
+    }
+    .layers {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin: 24px 0;
+    }
+    .layer {
+      background: var(--surface-20);
+      border-radius: var(--radius-12);
+      padding: 16px;
+      border-top: 4px solid var(--secondary-purple-100);
+    }
+    .layer .lname { font-weight: 700; font-size: 20px; color: var(--text-primary); }
+    .layer .ldesc { font-size: 16px; color: var(--text-secondary); margin-top: 6px; }
+    .champions { display: grid; grid-template-columns: repeat(7, 1fr); gap: 12px; margin-top: 20px; }
+    .champ {
+      background: #fff;
+      border: 1px solid var(--border-20);
+      border-radius: 12px;
+      padding: 14px 8px;
+      text-align: center;
+    }
+    .champ .cname { font-weight: 600; font-size: 16px; line-height: 1.2; color: var(--text-primary); }
+    .champ .cdomain { font-size: 11px; color: var(--text-tertiary); margin-top: 4px; letter-spacing: 0.5px; text-transform: uppercase; }
+
+    /* Slide 6 — honorable mentions */
+    .mentions { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 30px; }
+    .mention {
+      background: var(--surface-20);
+      border-radius: var(--radius-large);
+      padding: 24px;
+      border: 1px solid var(--border-20);
+    }
+    .mention .mtitle { font-size: 22px; font-weight: 700; color: var(--text-primary); margin-bottom: 8px; }
+    .mention .mdesc  { font-size: 16px; color: var(--text-secondary); }
+    .mention .mthumb {
+      min-height: 140px;
+      margin-top: 14px;
+      background: #fff;
+      border-radius: 8px;
+      border: 1px solid var(--border-20);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-tertiary); font-size: 14px;
+    }
+
+    /* Journey stitching — compact tier diagram */
+    .stitch {
+      display: flex; flex-direction: column; gap: 6px;
+      width: 100%; padding: 4px;
+    }
+    .stitch-tier {
+      display: grid; grid-template-columns: 70px 1fr;
+      align-items: center; gap: 8px;
+    }
+    .stitch-label {
+      font-size: 10px; font-weight: 700; color: var(--text-tertiary);
+      letter-spacing: 0.5px; text-transform: uppercase;
+      text-align: right;
+    }
+    .stitch-pills {
+      display: flex; gap: 4px; flex-wrap: wrap;
+    }
+    .stitch-pill {
+      background: var(--secondary-purple-10);
+      color: var(--secondary-purple-110);
+      font-size: 10px; font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+    .stitch-pill.lilac { background: #efefff; color: #4444b2; }
+    .stitch-pill.green { background: var(--success-10); color: #1d6b51; }
+    .stitch-pill.orange { background: var(--alert-10); color: var(--alert-100); }
+    .stitch-footer {
+      font-size: 11px; color: var(--text-secondary);
+      text-align: center; margin-top: 6px;
+      padding-top: 6px; border-top: 1px solid var(--border-20);
+      font-weight: 600;
+    }
+
+    /* Slide 7 — champion call-out */
+    .domain-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 18px; }
+    .domain {
+      background: var(--surface-20);
+      border-radius: var(--radius-12);
+      padding: 14px 16px;
+      border: 1px solid var(--border-20);
+      position: relative;
+    }
+    .domain.filled { background: var(--success-10); border-color: var(--success-100); }
+    .domain.open {
+      background: linear-gradient(135deg, #fef5d0 0%, #ffe580 100%);
+      border: 2px solid var(--gold-100);
+      box-shadow: 0 0 24px rgba(255, 205, 0, 0.4);
+      animation: glow 2s ease-in-out infinite alternate;
+    }
+    @keyframes glow {
+      from { box-shadow: 0 0 16px rgba(255, 205, 0, 0.3); }
+      to   { box-shadow: 0 0 32px rgba(255, 205, 0, 0.6); }
+    }
+    .domain .dname { font-weight: 700; font-size: 19px; color: var(--text-primary); }
+    .domain .downer { font-size: 14px; color: var(--text-secondary); margin-top: 4px; }
+    .domain .open-cta { font-size: 14px; font-weight: 700; color: #8a6f00; margin-top: 4px; letter-spacing: 0.5px; }
+    .check { color: var(--success-100); font-weight: 700; font-size: 18px; }
+    .ask { font-size: 42px; font-weight: 700; color: var(--text-primary); text-align: center; margin: 14px 0 16px; line-height: 1.2; }
+
+    /* Champion responsibilities */
+    .resp-block {
+      margin-top: 22px;
+      padding: 18px 20px;
+      background: var(--surface-20);
+      border-radius: var(--radius-12);
+      border: 1px solid var(--border-20);
+    }
+    .resp-title {
+      font-size: 13px; font-weight: 700; letter-spacing: 1px;
+      color: var(--text-tertiary); text-transform: uppercase;
+      text-align: center; margin-bottom: 14px;
+    }
+    .resp-grid {
+      display: grid; grid-template-columns: repeat(6, 1fr); gap: 10px;
+    }
+    .resp-card {
+      background: white;
+      border-radius: 8px;
+      padding: 12px 10px;
+      border-top: 3px solid var(--secondary-purple-100);
+      text-align: left;
+    }
+    .resp-card:nth-child(2) { border-top-color: var(--lilac-100); }
+    .resp-card:nth-child(3) { border-top-color: var(--alert-100); }
+    .resp-card:nth-child(4) { border-top-color: var(--success-100); }
+    .resp-card:nth-child(5) { border-top-color: var(--gold-100); }
+    .resp-card:nth-child(6) { border-top-color: var(--primary-red-100); }
+    .resp-verb {
+      font-size: 14px; font-weight: 700; color: var(--text-primary);
+      letter-spacing: 0.5px; text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+    .resp-desc { font-size: 11px; color: var(--text-secondary); line-height: 1.35; }
+
+    /* Slide 8 — CTA */
+    .cta-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 40px; }
+    .cta {
+      background: var(--surface);
+      border-radius: var(--radius-large);
+      padding: 36px 28px;
+      border: 1px solid var(--border-20);
+      text-align: center;
+      min-height: 280px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+    .cta:nth-child(1) { border-top: 5px solid var(--lilac-100); }
+    .cta:nth-child(2) { border-top: 5px solid var(--secondary-purple-100); }
+    .cta:nth-child(3) { border-top: 5px solid var(--primary-red-100); }
+    .cta-step { font-size: 14px; letter-spacing: 1.5px; color: var(--text-tertiary); text-transform: uppercase; font-weight: 600; }
+    .cta-action { font-size: 30px; font-weight: 700; color: var(--text-primary); margin: 12px 0 18px; line-height: 1.2; }
+    .cta-detail { font-size: 18px; color: var(--text-secondary); margin-top: 8px; line-height: 1.5; }
+    .cta-detail code { font-size: 16px; }
+    .summary-pill {
+      display: inline-block;
+      margin-top: 36px;
+      padding: 12px 28px;
+      border-radius: var(--radius-pill);
+      background: var(--surface-30);
+      color: var(--text-secondary);
+      font-size: 18px;
+      font-weight: 500;
+    }
+    .summary-pill strong { color: var(--text-primary); }
+
+    /* Slide 9 — Meta wow */
+    .wow-slide { background: var(--text-primary) !important; padding: 80px !important; display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important; text-align: center; }
+    .wow-eyebrow { font-size: 15px; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.45); font-weight: 600; margin-bottom: 32px; }
+    .wow-headline { font-size: 72px; font-weight: 800; color: #fff; line-height: 1.1; margin: 0 0 16px; }
+    .wow-headline em { font-style: normal; color: var(--primary-red-100); }
+    .wow-sub { font-size: 24px; color: rgba(255,255,255,0.55); margin: 0 0 64px; font-weight: 400; }
+    .wow-stats { display: flex; gap: 28px; justify-content: center; flex-wrap: wrap; margin-bottom: 56px; }
+    .wow-stat {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: var(--radius-12);
+      padding: 24px 36px;
+      min-width: 180px;
+    }
+    .wow-stat-num { font-size: 44px; font-weight: 800; color: #fff; line-height: 1; }
+    .wow-stat-label { font-size: 14px; color: rgba(255,255,255,0.45); margin-top: 6px; text-transform: uppercase; letter-spacing: 1px; }
+    .wow-tagline { font-size: 22px; color: rgba(255,255,255,0.6); font-weight: 400; }
+    .wow-tagline strong { color: rgba(255,255,255,0.9); }
+
+    /* Slide footer (optional) */
+    .footer-tag {
+      position: absolute; bottom: 24px; right: 60px;
+      font-size: 14px; color: var(--text-tertiary);
+      letter-spacing: 1px;
+    }
+
+    /* eyebrow / section header */
+    .eyebrow {
+      font-size: 18px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-tertiary);
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .closing-line {
+      font-size: 32px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-top: 30px;
+      text-align: center;
+      line-height: 1.3;
+    }
+  </style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- ============================================ -->
+<!-- SLIDE 1 — COLD OPEN -->
+<!-- ============================================ -->
+<section class="cover">
+  <div class="corner">PRODUCT &amp; TECH TOWNHALL · MAY 2026</div>
+  <div class="eyebrow">AI FOR WORK</div>
+  <h1>What changed in the last 2 weeks.</h1>
+  <p class="sub">3 things I shipped with Claude Code. Then something I'm handing to all of you.</p>
+
+  <aside class="notes">
+**[0:00–0:45 — LIVE DEMO, screen swap to terminal]**
+
+*(Skip past this slide quickly — the terminal is the cold open, not the slide.)*
+
+Walk on. No greeting. Open the terminal. Audience sees blank `~/spinny-air$` prompt.
+
+Type the prompt LIVE (don't paste):
+> *"I'm a new PM at Spinny. Pull yesterday's supply funnel by city, flag the 3 cities with the worst L2.5→L3 conversion vs their 4-week trend, and tell me what to investigate first."*
+
+While Claude thinks (~20 sec) say:
+- *"Watch what it does. It's reading our context — knows our funnel, knows our table, knows our city benchmarks. I haven't told it any of that."*
+
+While SQL runs (~5 sec):
+- *"That's our supply table. Same one Tanay queries every morning."*
+
+When output renders:
+- *"Three cities flagged: [say them]. Recommendation: investigate [city with biggest volume] first."*
+
+**Punchline:** *"That was 90 seconds. From a fresh terminal. No docs shared with me. No analyst on the call."*
+
+[Swap back to slides — slide 2]
+  </aside>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 2 — ARC -->
+<!-- ============================================ -->
+<section>
+  <div class="eyebrow">THE LAST 2 WEEKS</div>
+  <h2>3 wins. Then a reveal.</h2>
+
+  <div class="arc-grid">
+    <div class="arc-card">
+      <div class="num">01</div>
+      <div class="title">Lead Leakage Audit</div>
+      <div class="desc">Found and mapped 17 PII exposure surfaces in one afternoon.</div>
+      <div style="margin-top: 16px;"><span class="badge red">Security</span></div>
+    </div>
+    <div class="arc-card">
+      <div class="num">02</div>
+      <div class="title">MTA Attribution v5</div>
+      <div class="desc">Ecosystem and Calls — finally visible. One unified view across the journey.</div>
+      <div style="margin-top: 16px;"><span class="badge green">Analytics</span></div>
+    </div>
+    <div class="arc-card">
+      <div class="num">03</div>
+      <div class="title">Deep dives, fast</div>
+      <div class="desc">Seasonality, big bets, journey stitching — same toolkit.</div>
+      <div style="margin-top: 16px;"><span class="badge orange">Strategy</span></div>
+    </div>
+    <div class="arc-card reveal-card">
+      <div class="num" style="color: var(--secondary-purple-100);">→</div>
+      <div class="title" style="color: var(--secondary-purple-110);">Spinny AIR OS</div>
+      <div class="desc">An org-level intelligence layer. Yours to clone.</div>
+      <div style="margin-top: 16px;"><span class="badge purple">For everyone</span></div>
+    </div>
+  </div>
+
+  <aside class="notes">
+**[0:45–1:15 — FRAME, ~30 sec]**
+
+*"Three things I've shipped with Claude Code in the last 2 weeks that changed how I work. Then something I'm handing to the whole team."*
+
+Pause. Let the four cards land. Don't read them aloud — let the audience scan.
+
+Transition: *"Win one."*
+  </aside>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 3 — WIN 1: LEAD LEAKAGE -->
+<!-- ============================================ -->
+<section>
+  <div class="win-header">
+    <span class="badge red">WIN 01 · SECURITY</span>
+    <span class="badge gold">1 AFTERNOON</span>
+  </div>
+  <h2>"Are we leaking seller PII?"</h2>
+
+  <div class="win-grid">
+    <div class="win-story">
+      <p>One question. One Claude Code session. One afternoon.</p>
+      <p><strong>17 PII exposure surfaces</strong> mapped across our flows. Owners assigned. Full audit doc written. Remediation tracker stood up.</p>
+      <div class="pull">A security-engineering project. Multiple people, multiple weeks. <br>One PM. One afternoon.</div>
+    </div>
+    <div class="win-thumb">
+      <div class="thumb-header">
+        <div class="thumb-title">Spinny PII Exposure Audit</div>
+        <div class="thumb-meta">APR 2026</div>
+      </div>
+      <div class="audit-row"><div class="audit-dot red"></div><div class="audit-bar long"></div><span class="audit-tag p0">P0</span></div>
+      <div class="audit-row"><div class="audit-dot red"></div><div class="audit-bar mid"></div><span class="audit-tag p0">P0</span></div>
+      <div class="audit-row"><div class="audit-dot orange"></div><div class="audit-bar long"></div><span class="audit-tag p1">P1</span></div>
+      <div class="audit-row"><div class="audit-dot orange"></div><div class="audit-bar short"></div><span class="audit-tag p1">P1</span></div>
+      <div class="audit-row"><div class="audit-dot orange"></div><div class="audit-bar mid"></div><span class="audit-tag p1">P1</span></div>
+      <div class="audit-row"><div class="audit-dot green"></div><div class="audit-bar long"></div><span class="audit-tag p2">P2</span></div>
+      <div class="audit-row"><div class="audit-dot green"></div><div class="audit-bar mid"></div><span class="audit-tag p2">P2</span></div>
+      <div class="audit-row"><div class="audit-dot green"></div><div class="audit-bar short"></div><span class="audit-tag p2">P2</span></div>
+      <div class="audit-row"><div class="audit-dot green"></div><div class="audit-bar mid"></div><span class="audit-tag p2">P2</span></div>
+      <div class="audit-row"><div class="audit-dot green"></div><div class="audit-bar long"></div><span class="audit-tag p2">P2</span></div>
+    </div>
+  </div>
+
+  <aside class="notes">
+**[1:15–2:45 — WIN 1, 90 sec]**
+
+*"The question that started it: 'Are we leaking seller PII?' One afternoon, one Claude Code session."*
+
+*"Output: 17 PII exposure surfaces — phone numbers, RC numbers, payment data — mapped across our flows. Each one with an owner. A full audit Google Doc. A remediation tracker."*
+
+[POINT to thumbnail]
+
+*"This is normally a security-engineering project. Multiple people, multiple weeks. I did it in one afternoon."*
+
+*"The point isn't that I found a bug. The point is — I found a *class of work* I would never have attempted before. Now it's a Tuesday."*
+
+**Skip:** specific IDOR details (SP-14402 sensitivity).
+**Land:** speed × breadth, not the bug itself.
+
+Transition: *"Win two — for the analysts in the room."*
+  </aside>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 4 — WIN 2: MTA -->
+<!-- ============================================ -->
+<section>
+  <div class="win-header">
+    <span class="badge green">WIN 02 · ANALYTICS</span>
+    <span class="badge purple">2 NEW CHANNELS · 1 VIEW</span>
+  </div>
+  <h2>Ecosystem and Calls — finally in the picture.</h2>
+
+  <div class="win-grid">
+    <div class="win-story">
+      <p>For years, supply attribution covered <strong>web and app</strong>. Two real channels were invisible: <strong>Ecosystem</strong> (FasTag, Challan) and <strong>Voice Calls</strong> (inbound + outbound).</p>
+      <p>Built a multi-touch model — <strong>Markov + W-Shape</strong> — that brings all four under one roof.</p>
+      <p>Web. App. Ecosystem. Calls. <strong>One unified view</strong> of the supply journey, end to end.</p>
+      <div class="pull green">The two channels we couldn't see were the ones that mattered most.</div>
+    </div>
+    <div class="win-thumb">
+      <div class="thumb-header">
+        <div class="thumb-title">Supply Marketing — Unified Channel View</div>
+        <div class="thumb-meta">MTA v5</div>
+      </div>
+      <div style="font-size: 11px; color: var(--text-tertiary); letter-spacing: 1px; margin-bottom: 6px; font-weight: 600;">PREVIOUSLY VISIBLE</div>
+      <div class="mta-row">
+        <div class="ch">Web</div>
+        <div class="mta-bars"><div class="mta-bar mk" style="top: 7px; width: 78%;"></div></div>
+        <div class="mta-delta" style="color: var(--text-secondary);">tracked</div>
+      </div>
+      <div class="mta-row">
+        <div class="ch">App</div>
+        <div class="mta-bars"><div class="mta-bar mk" style="top: 7px; width: 64%;"></div></div>
+        <div class="mta-delta" style="color: var(--text-secondary);">tracked</div>
+      </div>
+      <div style="font-size: 11px; color: var(--secondary-purple-100); letter-spacing: 1px; margin: 14px 0 6px; font-weight: 700;">+ NOW VISIBLE</div>
+      <div class="mta-row">
+        <div class="ch" style="color: var(--secondary-purple-110); font-weight: 700;">Ecosystem</div>
+        <div class="mta-bars">
+          <div class="mta-bar mk" style="top: 7px; width: 52%; background: var(--alert-100);"></div>
+        </div>
+        <div class="mta-delta" style="color: var(--alert-100); font-weight: 700;">NEW</div>
+      </div>
+      <div class="mta-row">
+        <div class="ch" style="color: var(--secondary-purple-110); font-weight: 700;">Calls</div>
+        <div class="mta-bars">
+          <div class="mta-bar mk" style="top: 7px; width: 41%; background: var(--alert-100);"></div>
+        </div>
+        <div class="mta-delta" style="color: var(--alert-100); font-weight: 700;">NEW</div>
+      </div>
+      <div class="mta-legend" style="justify-content: center; flex-direction: column; gap: 4px; align-items: center; text-align: center;">
+        <span style="color: var(--text-secondary); font-weight: 600; font-size: 13px;">Web · App · Ecosystem · Calls</span>
+        <span style="color: var(--secondary-purple-100); font-weight: 700; font-size: 13px;">→ One unified journey view</span>
+      </div>
+    </div>
+  </div>
+
+  <aside class="notes">
+**[2:45–4:15 — WIN 2, 90 sec]**
+
+*"Win two. For the analysts and the PMs who've been pretending analytics is someone else's job."*
+
+*"For years, supply attribution covered web and app. That's it. Two real channels were invisible — Ecosystem (FasTag, Challan), and Voice Calls. Inbound, outbound, none of it."*
+
+*"So I built a multi-touch model from scratch — Markov plus W-Shape — that brings all four under one roof. Web, App, Ecosystem, Calls."*
+
+[POINT to chart — call out the orange "NEW" rows]
+
+*"The two channels we couldn't see — they were the ones that mattered most."*
+
+*"This isn't an ML talk. The win isn't the model. The win is the **single view across the journey**. End to end. Every touch we ever recorded, finally in one frame."*
+
+[Tanay + Amit are in the audience — make eye contact]
+
+*"PMs — that's the bar. Analysts — go deeper than I have."*
+
+Transition: *"Win three. And it's not a project — it's something I'm giving you."*
+  </aside>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 5 — AIR OS REVEAL -->
+<!-- ============================================ -->
+<section class="reveal-hero">
+  <span class="badge purple">WIN 03 · FOR EVERYONE</span>
+  <h2>Spinny AIR OS</h2>
+  <span class="repo">github.com/karankumar-lab/spinny-air</span>
+
+  <p style="font-size: 22px; max-width: 90%; margin: 8px 0 0;">
+    Every PM, analyst, designer, TPM in this room can do what I just showed you. They just need the same starting brain. So we built it.
+  </p>
+
+  <div class="why-strip">
+    <div class="why-item">
+      <span class="pain">Scattered definitions</span>
+      <span class="gain">→ One verified brain</span>
+    </div>
+    <div class="why-item">
+      <span class="pain">Cold-start AI sessions</span>
+      <span class="gain">→ Same context, every time</span>
+    </div>
+    <div class="why-item">
+      <span class="pain">Slow onboarding</span>
+      <span class="gain">→ Productive Day 1</span>
+    </div>
+    <div class="why-item">
+      <span class="pain">SQL rewritten 100×</span>
+      <span class="gain">→ Working playbooks</span>
+    </div>
+    <div class="why-tagline">As we add to it, every conversation across Spinny gets smarter.</div>
+  </div>
+
+  <div class="layers">
+    <div class="layer">
+      <div class="lname">Context</div>
+      <div class="ldesc">The brain — metrics, terminology, org, tools, playbooks</div>
+    </div>
+    <div class="layer">
+      <div class="lname">Skills</div>
+      <div class="ldesc">Pre-built shortcuts — 5 live today</div>
+    </div>
+    <div class="layer">
+      <div class="lname">Agents</div>
+      <div class="ldesc">Domain experts — supply, auctions, demand, marketing, strategy</div>
+    </div>
+    <div class="layer">
+      <div class="lname">Champions</div>
+      <div class="ldesc">The people who keep it accurate</div>
+    </div>
+  </div>
+
+  <div class="champions">
+    <div class="champ"><div class="cname">Karan</div><div class="cdomain">Curator</div></div>
+    <div class="champ"><div class="cname">Amit</div><div class="cdomain">Analytics</div></div>
+    <div class="champ"><div class="cname">Rishav</div><div class="cdomain">Auctions</div></div>
+    <div class="champ"><div class="cname">Anmol</div><div class="cdomain">Demand</div></div>
+    <div class="champ"><div class="cname">Chirag</div><div class="cdomain">Demand</div></div>
+    <div class="champ"><div class="cname">Devansh</div><div class="cdomain">CX &amp; Pay</div></div>
+    <div class="champ"><div class="cname">Ramanshu</div><div class="cdomain">Org-level</div></div>
+  </div>
+
+  <aside class="notes">
+**[4:15–5:30 — WIN 3 / REVEAL, 75 sec]**
+
+**Pivot line (deliver slowly):**
+*"Then I realized — every person in this room can do what I just showed you. They just need the same starting brain I have."*
+
+*"So we built AIR OS."*
+
+[POINT to repo URL]
+
+*"One repo. Clone it once. Every Claude session, every PM, every analyst, every designer — same starting context. Our funnel definitions. Our SQL. Our org. Our seasonality. Our broken WebEngage journeys. Our 17 PII surfaces."*
+
+*"Four layers."* [walk through layers slide briefly — 3-4 sec each]
+- Context: *"the brain"*
+- Skills: *"pre-built shortcuts — 5 live today"*
+- Agents: *"domain experts"*
+- Champions: *"the people who keep it accurate"*
+
+**For the leaders (Ramanshu, Bhumit, Gaurav — make eye contact):**
+*"This is not a tool rollout. This is an org-level intelligence layer. As we add to it, every conversation across the company gets smarter."*
+
+**For the ICs:**
+*"You clone one repo. You start your next session where I started this morning."*
+
+[POINT to 7 champion faces]
+
+*"7 champions own the brain today. Karan, Amit, Rishav, Anmol, Chirag, Devansh, Ramanshu. Each owns one piece. About an hour a month."*
+
+*"And I want to talk about that."* [transition]
+  </aside>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 6 — HONORABLE MENTIONS -->
+<!-- ============================================ -->
+<section>
+  <div class="eyebrow">SAME TOOLKIT · SAME WEEKS</div>
+  <h2>And these too.</h2>
+
+  <div class="mentions">
+    <div class="mention">
+      <div class="mtitle">Supply seasonality, 3 years</div>
+      <div class="mdesc">Festival myths busted. Real events: Diwali CVR crash, Jan L2.5→L3 cliff, Sep mismatch.</div>
+      <div class="mthumb" style="padding: 8px;">
+        <svg class="season-svg" viewBox="0 0 320 140" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="seasonFill" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#6300a3" stop-opacity="0.25"/>
+              <stop offset="100%" stop-color="#6300a3" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <line x1="0" y1="120" x2="320" y2="120" stroke="#e8e8e8" stroke-width="1"/>
+          <line x1="0" y1="80"  x2="320" y2="80"  stroke="#e8e8e8" stroke-width="1" stroke-dasharray="2,3"/>
+          <line x1="0" y1="40"  x2="320" y2="40"  stroke="#e8e8e8" stroke-width="1" stroke-dasharray="2,3"/>
+          <path d="M 5 60 L 30 55 L 55 65 L 80 50 L 105 45 L 130 55 L 155 60 L 180 70 L 205 30 L 230 95 L 255 25 L 285 50 L 315 70 Z"
+                fill="url(#seasonFill)" stroke="none"/>
+          <polyline points="5,60 30,55 55,65 80,50 105,45 130,55 155,60 180,70 205,30 230,95 255,25 285,50 315,70"
+                    fill="none" stroke="#6300a3" stroke-width="2.5" stroke-linejoin="round"/>
+          <circle cx="230" cy="95" r="5" fill="#ed264f"/>
+          <circle cx="255" cy="25" r="5" fill="#00b088"/>
+          <circle cx="5" cy="60" r="4" fill="#e36000"/>
+          <text x="232" y="115" fill="#a61b37" font-size="9" font-weight="700">Diwali</text>
+          <text x="248" y="18" fill="#1d6b51" font-size="9" font-weight="700">Dec peak</text>
+          <text x="0" y="50" fill="#9f4300" font-size="9" font-weight="700">Jan cliff</text>
+          <text x="5" y="135" font-size="8" fill="#888">Jan</text>
+          <text x="155" y="135" font-size="8" fill="#888">Jul</text>
+          <text x="295" y="135" font-size="8" fill="#888">Dec</text>
+        </svg>
+      </div>
+    </div>
+    <div class="mention">
+      <div class="mtitle">L2.5→L3 big bets</div>
+      <div class="mdesc">44% of L2.5 leads never give city. 3 sized bets · ~1,500 stockins/month from one sprint.</div>
+      <div class="mthumb" style="padding: 14px; flex-direction: column; align-items: stretch; justify-content: flex-start;">
+        <div class="bet">
+          <div class="bname">Price → Schedule flow</div>
+          <div class="bsize">~415 stockins/mo</div>
+        </div>
+        <div class="bet">
+          <div class="bname">WhatsApp re-engagement</div>
+          <div class="bsize">~450 stockins/mo</div>
+        </div>
+        <div class="bet">
+          <div class="bname">Agent triage</div>
+          <div class="bsize">~640 stockins/mo</div>
+        </div>
+        <div class="bet-total">
+          <span>TOTAL</span>
+          <span class="v">~1,505 / month</span>
+        </div>
+      </div>
+    </div>
+    <div class="mention">
+      <div class="mtitle">Journey stitching map</div>
+      <div class="mdesc">10 data layers. Identity bridges. GA4 partition fix. End-to-end journeys, finally answerable.</div>
+      <div class="mthumb" style="padding: 14px; flex-direction: column; align-items: stretch; justify-content: center;">
+        <div class="stitch">
+          <div class="stitch-tier">
+            <div class="stitch-label">Acquire</div>
+            <div class="stitch-pills">
+              <span class="stitch-pill lilac">GA4</span>
+              <span class="stitch-pill lilac">Adjust</span>
+            </div>
+          </div>
+          <div class="stitch-tier">
+            <div class="stitch-label">Capture</div>
+            <div class="stitch-pills">
+              <span class="stitch-pill">sell_leads</span>
+              <span class="stitch-pill">Inspections</span>
+            </div>
+          </div>
+          <div class="stitch-tier">
+            <div class="stitch-label">Engage</div>
+            <div class="stitch-pills">
+              <span class="stitch-pill green">WebEngage</span>
+              <span class="stitch-pill green">WhatsApp</span>
+              <span class="stitch-pill green">Voicebot</span>
+            </div>
+          </div>
+          <div class="stitch-tier">
+            <div class="stitch-label">Convert</div>
+            <div class="stitch-pills">
+              <span class="stitch-pill orange">Auctions</span>
+            </div>
+          </div>
+          <div class="stitch-tier">
+            <div class="stitch-label">Post-sale</div>
+            <div class="stitch-pills">
+              <span class="stitch-pill">FasTag</span>
+              <span class="stitch-pill">Challan</span>
+            </div>
+          </div>
+          <div class="stitch-footer">10 layers · 4 identity bridges</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <aside class="notes">
+**[5:30–5:50 — HONORABLE MENTIONS, 20 sec]**
+
+Move fast through this slide. Don't dwell.
+
+*"And these too — same toolkit, same couple of weeks."*
+
+[Wave at slide]
+
+*"Supply seasonality — busted some festival myths I'd believed for years."*
+*"L2.5→L3 big bets — sized 1,500 stockins a month of opportunity."*
+*"Journey stitching map — the thing we said was too complicated to do."*
+
+*"The bar moves fast once you start."*
+
+Transition: *"Now — about those champions."*
+  </aside>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 7 — CHAMPION CALL-OUT -->
+<!-- ============================================ -->
+<section>
+  <div class="eyebrow">THE INVITATION</div>
+  <h2 class="ask">Who wants to be the champion of their world?</h2>
+
+  <div class="domain-grid">
+    <div class="domain filled"><div class="dname"><span class="check">✓</span> Analytics</div><div class="downer">Amit</div></div>
+    <div class="domain filled"><div class="dname"><span class="check">✓</span> Auctions</div><div class="downer">Rishav</div></div>
+    <div class="domain filled"><div class="dname"><span class="check">✓</span> Demand</div><div class="downer">Anmol &amp; Chirag</div></div>
+    <div class="domain filled"><div class="dname"><span class="check">✓</span> CX &amp; Payments</div><div class="downer">Devansh</div></div>
+    <div class="domain open"><div class="dname">Supply</div><div class="open-cta">→ OPEN</div></div>
+    <div class="domain open"><div class="dname">Marketing</div><div class="open-cta">→ OPEN</div></div>
+    <div class="domain open"><div class="dname">Engineering</div><div class="open-cta">→ OPEN</div></div>
+    <div class="domain open"><div class="dname">Design</div><div class="open-cta">→ OPEN</div></div>
+    <div class="domain open"><div class="dname">Lending</div><div class="open-cta">→ OPEN</div></div>
+    <div class="domain open"><div class="dname">Insurance</div><div class="open-cta">→ OPEN</div></div>
+    <div class="domain open"><div class="dname">Inspections</div><div class="open-cta">→ OPEN</div></div>
+    <div class="domain open"><div class="dname">Refurb</div><div class="open-cta">→ OPEN</div></div>
+    <div class="domain open"><div class="dname">Autocar</div><div class="open-cta">→ OPEN</div></div>
+  </div>
+
+  <p style="margin-top: 16px; font-size: 19px; text-align: center;">
+    <strong>One file. ~1 hour a month.</strong> You're the person who keeps your domain's brain accurate.
+  </p>
+
+  <div class="resp-block">
+    <div class="resp-title">What being a champion looks like</div>
+    <div class="resp-grid">
+      <div class="resp-card">
+        <div class="resp-verb">Own</div>
+        <div class="resp-desc">Keep your domain's files accurate — metric defs, terminology, playbooks.</div>
+      </div>
+      <div class="resp-card">
+        <div class="resp-verb">Stitch</div>
+        <div class="resp-desc">Pull new dashboards, sheets, docs into the OS as they surface in your space.</div>
+      </div>
+      <div class="resp-card">
+        <div class="resp-verb">Audit</div>
+        <div class="resp-desc">Quarterly read-through. Flag stale numbers, broken links, outdated benchmarks.</div>
+      </div>
+      <div class="resp-card">
+        <div class="resp-verb">Review</div>
+        <div class="resp-desc">When a teammate suggests a change in your domain, you're the first reviewer.</div>
+      </div>
+      <div class="resp-card">
+        <div class="resp-verb">Evangelize</div>
+        <div class="resp-desc">First responder for your domain's Claude Code questions. Help your team start.</div>
+      </div>
+      <div class="resp-card">
+        <div class="resp-verb">Compound</div>
+        <div class="resp-desc">Every new learning, fix, or insight from your domain feeds back into the brain.</div>
+      </div>
+    </div>
+  </div>
+
+  <aside class="notes">
+**[5:50–6:30 — CHAMPION CALL-OUT, 40 sec — THE EXCITEMENT BEAT]**
+
+[Land on the question. Slow down.]
+
+*"Today, four domains have champions. Nine don't."*
+
+[Point to the open glowing slots — read them out fast]
+*"Supply, Marketing, Engineering, Design, Lending, Insurance, Inspections, Refurb, Autocar — no champions yet."*
+
+[PAUSE]
+
+**Ask the question into the room:**
+*"Who wants to be the champion of their world?"*
+
+[PAUSE. Let it land. Look around. Make eye contact with leads of each open domain.]
+
+*"Champion = you own one file. About an hour a month. You're the person who keeps your domain's brain accurate. As you change, the brain changes — and everyone gets smarter."*
+
+*"Tell me after this. Or DM me. We'll set you up Monday."*
+
+**Goal:** at least 3 hands or DMs by end of session. Note the names.
+  </aside>
+</section>
+
+<!-- ============================================ -->
+<!-- SLIDE 8 — CTA -->
+<!-- ============================================ -->
+<section>
+  <div class="eyebrow">START MONDAY</div>
+  <h2>Three ways in.</h2>
+
+  <div class="cta-grid">
+    <div class="cta">
+      <div class="cta-step">STEP 1</div>
+      <div class="cta-action">Take the course</div>
+      <div class="cta-detail"><code>/start-0-0</code><br>~3 hrs · self-paced<br>Anmol just finished it.</div>
+    </div>
+    <div class="cta">
+      <div class="cta-step">STEP 2</div>
+      <div class="cta-action">Clone AIR OS</div>
+      <div class="cta-detail">github.com/karankumar-lab/<br>spinny-air<br><br>DM your domain champion</div>
+    </div>
+    <div class="cta">
+      <div class="cta-step">STEP 3</div>
+      <div class="cta-action">Become a champion</div>
+      <div class="cta-detail">DM me with the domain<br>you want to own.<br><br>~1 hr / month.</div>
+    </div>
+  </div>
+
+  <div style="text-align: center;">
+    <span class="summary-pill"><strong>I'll share the action summary</strong> with all of you on Slack right after this.</span>
+  </div>
+
+  <p class="closing-line">
+    Next townhall — I want the AI Wins track full of <em>your</em> stories.
+  </p>
+
+  <aside class="notes">
+**[6:30–7:00 — CTA + CLOSE, 30 sec]**
+
+*"Three ways in."*
+
+*"One — take the course. Three hours. Self-paced. Anmol just finished it."*
+*"Two — clone the OS. DM your domain champion if you want a walkthrough."*
+*"Three — become a champion."*
+
+*"You don't need to remember any of this. I'll drop the action summary on Slack right after this — every link, every DM, every step."*
+
+[PAUSE]
+
+**Close (deliver as the closing line, slow):**
+*"Next townhall — I want the AI Wins track full of YOUR stories. Not mine."*
+
+*"Thanks."*
+
+[Hand back to Ramanshu]
+
+---
+**POST-SESSION CHECKLIST (run within 30 min of stepping off):**
+- [ ] Post the **action summary** in `#supply-auction-product` (file: `townhall/action-summary.md`)
+- [ ] Share Setup Guide doc link in same channel
+- [ ] Note names of anyone who raised hands or DM'd about being a champion → drop in `townhall/new-champions.md`
+- [ ] Send champion onboarding DMs (templates in `~/spinny-air/rollout/champion-dm-*.md`) within 24 hours
+- [ ] Track AIR repo clone count Monday + Tuesday
+  </aside>
+</section>
+
+<!-- SLIDE 9 — META WOW -->
+<!-- ============================================ -->
+<section class="wow-slide">
+  <div class="wow-eyebrow">One more thing</div>
+  <h2 class="wow-headline">This deck was built by<br><em>Claude Code.</em></h2>
+  <p class="wow-sub">Same toolkit. Same afternoon. Same repo.</p>
+
+  <div class="wow-stats">
+    <div class="wow-stat">
+      <div class="wow-stat-num">1</div>
+      <div class="wow-stat-label">session</div>
+    </div>
+    <div class="wow-stat">
+      <div class="wow-stat-num">30 mins</div>
+      <div class="wow-stat-label">start to finish</div>
+    </div>
+    <div class="wow-stat">
+      <div class="wow-stat-num">8</div>
+      <div class="wow-stat-label">animated slides</div>
+    </div>
+    <div class="wow-stat">
+      <div class="wow-stat-num">0</div>
+      <div class="wow-stat-label">PowerPoint clicks</div>
+    </div>
+  </div>
+
+  <p class="wow-tagline"><strong>SPEED design tokens. Speaker notes. Google Slides version. Live demo SQL.</strong><br>All from conversation.</p>
+
+  <aside class="notes">
+**[30-sec close — deliver slow, let it land]**
+
+*"One more thing."*
+
+[advance slide — audience sees dark screen + "This deck was built by Claude Code."]
+
+[pause 2–3 seconds]
+
+*"Same toolkit. Same afternoon. Same repo you can clone starting today."*
+
+*"4 hours. One session. Design tokens pulled from Figma. Speaker notes written. Google Slides version. Live demo SQL validated — all from conversation."*
+
+[pause]
+
+*"That's the bar. It's not magic. It's just available to you now."*
+
+[hand back to Ramanshu]
+  </aside>
+</section>
+
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/plugin/notes/notes.js"></script>
+<script>
+  Reveal.initialize({
+    width: 1600,
+    height: 1000,
+    margin: 0.04,
+    controls: true,
+    progress: true,
+    hash: true,
+    slideNumber: 'c/t',
+    transition: 'fade',
+    plugins: [ RevealNotes ]
+  });
+</script>
+</body>
+</html>
